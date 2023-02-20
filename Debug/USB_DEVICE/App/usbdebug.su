@@ -1,0 +1,7 @@
+../USB_DEVICE/App/usbdebug.c:7:6:print	24	static
+../USB_DEVICE/App/usbdebug.c:15:6:println	24	static
+../USB_DEVICE/App/usbdebug.c:29:6:printfp	24	static
+../USB_DEVICE/App/usbdebug.c:41:6:printu	24	static
+../USB_DEVICE/App/usbdebug.c:57:7:scan	24	static
+../USB_DEVICE/App/usbdebug.c:77:10:scanu	24	static
+../USB_DEVICE/App/usbdebug.c:97:7:scanfp	24	static
