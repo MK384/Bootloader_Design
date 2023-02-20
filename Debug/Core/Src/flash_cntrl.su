@@ -1,0 +1,11 @@
+../Core/Src/flash_cntrl.c:113:6:Flash_Init	4	static
+../Core/Src/flash_cntrl.c:134:23:Flash_Errors_Check	16	static
+../Core/Src/flash_cntrl.c:195:7:Flash_Lock	4	static
+../Core/Src/flash_cntrl.c:215:7:Flash_Unlock	4	static
+../Core/Src/flash_cntrl.c:230:16:Flash_Write	16	static
+../Core/Src/flash_cntrl.c:266:16:Flash_Read	16	static
+../Core/Src/flash_cntrl.c:279:16:Flash_erase	16	static
+../Core/Src/flash_cntrl.c:314:16:Flash_WRP_Enable	16	static
+../Core/Src/flash_cntrl.c:344:16:Flash_WRP_Desable	16	static
+../Core/Src/flash_cntrl.c:377:16:Flash_OB_Unlock	8	static
+../Core/Src/flash_cntrl.c:395:16:Flash_OB_Lock	8	static

@@ -97,16 +97,19 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-		 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, RESET);
-//		 println("Hello world !");
 
-		 HAL_Delay(1000);
 
-		 print("Hello world!");
 
-		 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, SET);
 
-		 HAL_Delay(1000);
+
+
+
+
+
+
+
+
+
 
     /* USER CODE BEGIN 3 */
   }
