@@ -224,10 +224,10 @@ void Flash_Init(void)
 
  /**
   * @brief   Write a word of data at specific address
-  * @param   address: uint32 , data:uint32
+  * @param   address: uint32 , data:uint32 buffer , size: buffer size
   * @retval  ERR_StateType
   */
- ERR_StateType Flash_Write(uint32_t address , uint32_t data ){
+ ERR_StateType Flash_Write(uint32_t address , uint32_t data[] , uint8_t size ){
 
      /* Wait bsy flag */
      while(0 != (FLASH->SR & FLASH_SR_BSY))
@@ -238,35 +238,38 @@ void Flash_Init(void)
      /* Enable flash programming */
      FLASH->CR |= FLASH_CR_PG;
 
-     /* Write data into flash */
-
-     *(volatile uint32_t*)(address) = data;
-
-     /* Wait bsy flag */
-     while(0 != (FLASH->SR & FLASH_SR_BSY))
+     for(uint32_t idx = 0; idx < size; ++idx)
      {
-       /* Waiting */
-     }
 
+		 /* Write data into flash */
+		 *(volatile uint32_t*)(address) = data[idx];
+
+		 /* Wait bsy flag */
+		 while(0 != (FLASH->SR & FLASH_SR_BSY))
+		 {
+		   /* Waiting */
+		 }
+
+     }
      /* Disable flash programming */
      FLASH->CR &= ~FLASH_CR_PG;
 
      return Flash_Errors_Check();
-
-
 
  }
 
 
  /**
   * @brief   Read a word of data at specific address
-  * @param   address: uint32
+  * @param   address: uint32 , a pointer to buffer, buffer size
   * @retval  ERR_StateType , dataOut address holds the data if the process succeed.
   */
- ERR_StateType Flash_Read(uint32_t address , uint32_t* dataOut){
+ ERR_StateType Flash_Read(uint32_t address , uint32_t* dataOut , uint8_t size){
 
-
-     *dataOut = * (uint32_t *) address;
+     for(uint32_t idx = 0; idx < size; ++idx)
+     {
+    	*(dataOut+idx) = * ((uint32_t *) (address+idx));
+     }
      return Flash_Errors_Check();
  }
 
@@ -337,7 +340,7 @@ void Flash_Init(void)
 
 
  /**
-  * @brief   un-protect a sector in flash memory.
+  * @brief   un-protect a sector in flash memory from writing.
   * @param   sector_num: uint32 [must be less than 5 for stm32f401xC/B]
   * @retval  ERR_StateType.
   */
@@ -366,6 +369,35 @@ void Flash_Init(void)
 
  }
 
+
+
+ /**
+  * @brief   get the state of the sectors, either protected or not .
+  * 		1 means not protected , 0 means protected.
+  * @param    a byte contains sectors states as one for each its bits
+  * @retval  ERR_StateType.
+  */
+ ERR_StateType Flash_Get_Protection(uint8_t* sectors){
+
+     /* Wait bsy flag */
+     while(0 != (FLASH->SR & FLASH_SR_BSY))
+     {
+       /* Waiting */
+     }
+
+       /* write the sector number */
+       *sectors = (uint8_t) ((FLASH->OPTCR >> 16) & 0xFF);
+
+     /* Wait bsy flag */
+     while(0 != (FLASH->SR & FLASH_SR_BSY))
+     {
+       /* Waiting */
+     }
+
+     return Flash_Errors_Check();
+
+
+ }
 
 
  /**

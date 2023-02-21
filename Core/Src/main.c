@@ -93,6 +93,11 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+
+
+  HAL_Delay(5000);
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -100,7 +105,7 @@ int main(void)
 
 
 
-
+	 println(scan("Enter Command: "));
 
 
 

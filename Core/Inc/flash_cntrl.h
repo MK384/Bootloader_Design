@@ -106,16 +106,27 @@ extern "C"
      * @{
      */
 		 void Flash_Init(void);
+
 		 void Flash_Lock(void);
 		 void Flash_Unlock(void);
 
-		 ERR_StateType Flash_Write(uint32_t address , uint32_t data);
-		 ERR_StateType Flash_Read(uint32_t address , uint32_t* dataOut);
+		 ERR_StateType Flash_Write(uint32_t address , uint32_t data[] , uint8_t size);
+		 ERR_StateType Flash_Read(uint32_t address , uint32_t* dataOut , uint8_t size);
 		 ERR_StateType Flash_erase(uint32_t sector_num);
+
 		 ERR_StateType Flash_WRP_Enable(uint32_t sector_num);
 		 ERR_StateType Flash_WRP_Desable(uint32_t sector_num);
+
+		 ERR_StateType Flash_Get_Protection(uint8_t* sectors);
+
+
+		 ERR_StateType Flash_RDP_Enable(uint32_t sector_num);
+		 ERR_StateType Flash_RDP_Desable(uint32_t sector_num);
+
 		 ERR_StateType Flash_OB_Unlock(void);
 		 ERR_StateType Flash_OB_Lock(void);
+
+
 
 
 /**
