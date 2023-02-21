@@ -100,7 +100,7 @@ const char *AUTHOR = "Mohammed Khaled \n";
  * @{
  */
 
-const char* SEPARTE_LINE =          "------------------------------------------------\n";
+const char* SEPART_LINE =          "------------------------------------------------\n";
 const char* CMD_HEAD =    		    "|*********          COMMANDS      *************|\n";
 const char* MSG_HEAD =              "|*********         MSGs & ERR     *************|\n";
 
@@ -109,6 +109,7 @@ const char* ID_LINE   =             "| BL ID           :    ";
 const char* VER_LINE  =  			"| BL Version      :    ";
 const char* AUTH_LINE =			    "| BL Author       :    ";
 
+const char* GET_INFO =				"| Get BL Info     :    ";
 
 const char* FLASH_UNLOCK =			"| FLASH Unlock    :    ";
 const char* FLASH_LOCK =			"| FLASH Lock      :    ";
@@ -127,34 +128,14 @@ const char* SEC_UNPROTECT =	        "| Sectors Unlock  :    ";
 const char* ACK =			        "| ACK CODE        :    ";
 const char* NACK =			        "| NACK CODE       :    ";
 
-const char* PGSERR_ERR =		    "| Programming sequence error     :    ";
-const char* PGPERR_ERR =	        "| Programming parallelism error  :    ";
-const char* PGAERR_ERR =	        "| Programming alignment error    :    ";
-const char* WRPERR_ERR =	        "| Write protection error         :    ";
+const char* PGSERR_ERR =		    "| Programming Sequence Error     :    ";
+const char* PGPERR_ERR =	        "| Programming Parallelism Error  :    ";
+const char* PGAERR_ERR =	        "| Programming Alignment Error    :    ";
+const char* WRPERR_ERR =	        "| Write Protection Error         :    ";
 
 /**
  * @}
  */
-
-
-
-/**
- * @brief
- * @note
- * @param   None
- * @retval  None
- */
-
-
-
-
-
-/**
- * @brief
- * @param   none
- * @retval  none
- */
-
 
 
 

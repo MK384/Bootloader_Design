@@ -55,7 +55,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  * @{
  */
 
-static ERR_StateType Flash_Errors_Check(void);
+static FLASH_StateType Flash_Errors_Check(void);
 /**
  * @}
  */
@@ -131,9 +131,9 @@ void Flash_Init(void)
  * @param   none
  * @retval  error_type
  */
- static ERR_StateType Flash_Errors_Check(void)
+ static FLASH_StateType Flash_Errors_Check(void)
 {
-	ERR_StateType error_type;
+	 FLASH_StateType error_type;
   if(FLASH_SR_PGSERR == (FLASH->SR & FLASH_SR_PGSERR))
   {
     /* Programming sequence error */
@@ -227,7 +227,7 @@ void Flash_Init(void)
   * @param   address: uint32 , data:uint32 buffer , size: buffer size
   * @retval  ERR_StateType
   */
- ERR_StateType Flash_Write(uint32_t address , uint32_t data[] , uint8_t size ){
+ FLASH_StateType Flash_Write(uint32_t address , uint32_t data[] , uint8_t size ){
 
      /* Wait bsy flag */
      while(0 != (FLASH->SR & FLASH_SR_BSY))
@@ -264,13 +264,12 @@ void Flash_Init(void)
   * @param   address: uint32 , a pointer to buffer, buffer size
   * @retval  ERR_StateType , dataOut address holds the data if the process succeed.
   */
- ERR_StateType Flash_Read(uint32_t address , uint32_t* dataOut , uint8_t size){
+ void Flash_Read(uint32_t address , uint32_t* dataOut , uint8_t size){
 
      for(uint32_t idx = 0; idx < size; ++idx)
      {
     	*(dataOut+idx) = * ((uint32_t *) (address+idx));
      }
-     return Flash_Errors_Check();
  }
 
 
@@ -279,7 +278,7 @@ void Flash_Init(void)
   * @param   secto_numr: uint32 [must be less than 5 for stm32f401xC/B]
   * @retval  ERR_StateType.
   */
- ERR_StateType Flash_erase(uint32_t sector_num){
+ FLASH_StateType Flash_erase(uint32_t sector_num){
 
      /* Wait bsy flag */
      while(0 != (FLASH->SR & FLASH_SR_BSY))
@@ -314,7 +313,7 @@ void Flash_Init(void)
   * @param   sector_num: uint32 [must be less than 5 for stm32f401xC/B]
   * @retval  ERR_StateType.
   */
- ERR_StateType Flash_WRP_Enable(uint32_t sector_num){
+ FLASH_StateType Flash_WRP_Enable(uint32_t sector_num){
 
      /* Wait bsy flag */
      while(0 != (FLASH->SR & FLASH_SR_BSY))
@@ -344,7 +343,7 @@ void Flash_Init(void)
   * @param   sector_num: uint32 [must be less than 5 for stm32f401xC/B]
   * @retval  ERR_StateType.
   */
- ERR_StateType Flash_WRP_Desable(uint32_t sector_num){
+ FLASH_StateType Flash_WRP_Desable(uint32_t sector_num){
 
      /* Wait bsy flag */
      while(0 != (FLASH->SR & FLASH_SR_BSY))
@@ -377,7 +376,7 @@ void Flash_Init(void)
   * @param    a byte contains sectors states as one for each its bits
   * @retval  ERR_StateType.
   */
- ERR_StateType Flash_Get_Protection(uint8_t* sectors){
+ FLASH_StateType Flash_Get_Protection(uint8_t* sectors){
 
      /* Wait bsy flag */
      while(0 != (FLASH->SR & FLASH_SR_BSY))
@@ -406,7 +405,7 @@ void Flash_Init(void)
   * @retval  ERR_StateType.
   */
 
- ERR_StateType Flash_OB_Unlock(void){
+ FLASH_StateType Flash_OB_Unlock(void){
 
      /* Write OPTKEY1 */
      FLASH->OPTKEYR = 0x08192A3B;
@@ -424,7 +423,7 @@ void Flash_Init(void)
   * @retval  ERR_StateType.
   */
 
- ERR_StateType Flash_OB_Lock(void){
+ FLASH_StateType Flash_OB_Lock(void){
 
      /* Write lock bit */
      FLASH->OPTCR |= FLASH_OPTCR_OPTLOCK;
