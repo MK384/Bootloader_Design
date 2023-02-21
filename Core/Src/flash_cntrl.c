@@ -268,7 +268,7 @@ void Flash_Init(void)
 
      for(uint32_t idx = 0; idx < size; ++idx)
      {
-    	*(dataOut+idx) = * ((uint32_t *) (address+idx));
+    	dataOut[idx] = * ((uint32_t *) (address+idx));
      }
  }
 

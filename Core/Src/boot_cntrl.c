@@ -90,6 +90,12 @@ void BOOT_Transfer_Cntrl(uint32_t ImageLocation){
         }
         else	// Transfer to the Flash memory
         {
+            /* Enable SYSCFG clock */
+            RCC->APB2ENR |= RCC_APB2LPENR_SYSCFGLPEN;
+
+            /* Map address 0x0 to Flash memory */
+            SYSCFG->MEMRMP = 0x0;
+
           /* Vector Table Relocation in Internal FLASH */
           __DMB();
           SCB->VTOR = ImageLocation;
@@ -115,6 +121,60 @@ void BOOT_Transfer_Cntrl(uint32_t ImageLocation){
 	  }
 }
 
+
+/**
+ * @brief 	Copy Image from Source location to destination location
+ * @note	The function shouldn't return, if returned, an error has occurred.
+ * @param   src image address , dest image address , size of the image by bytes
+ * @retval  FLASH_StateType
+ */
+FLASH_StateType BOOT_CPY_Image(uint32_t srcAddress ,uint32_t destAddress, uint32_t size){
+
+
+	FLASH_StateType cpy_state;
+	uint32_t data_block[4];
+
+	uint32_t end_src = srcAddress + size;
+
+	/* Initialize the flash */
+	Flash_Init();
+	/* Unlock the Flash */
+	Flash_Unlock();
+
+	uint8_t resend_count = 0;
+	while(srcAddress <= end_src ){
+
+		if (! resend_count){
+
+				Flash_Read(srcAddress, data_block, 4);
+				srcAddress += 16;
+
+		}
+
+		// try 3 times as maximum to write the block
+		// If exceeded 3, abort writing.
+		if (resend_count >= 3){
+
+			break;
+		}
+
+		cpy_state = Flash_Write(destAddress, data_block, 4);
+
+		if (cpy_state == Ok_State){
+
+			destAddress += 16;
+			resend_count = 0;
+
+		}
+		else {
+			resend_count++;
+		}
+
+	}
+	return cpy_state;
+
+
+}
 
 
 

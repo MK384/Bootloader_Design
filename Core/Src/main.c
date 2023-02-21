@@ -105,7 +105,7 @@ int main(void)
 
 
 
-	 println(scan("Enter Command: "));
+
 
 
 
