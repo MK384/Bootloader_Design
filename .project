@@ -29,4 +29,16 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h</name>
+			<type>1</type>
+			<location>E:/Bootloader_Design/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h</location>
+		</link>
+		<link>
+			<name>Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_usart.c</name>
+			<type>1</type>
+			<location>E:/stm32f4xx_hal_driver/Src/stm32f4xx_hal_usart.c</location>
+		</link>
+	</linkedResources>
 </projectDescription>

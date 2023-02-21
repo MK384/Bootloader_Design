@@ -67,8 +67,8 @@ all: main-build
 main-build: Bootloader_design.elf secondary-outputs
 
 # Tool invocations
-Bootloader_design.elf Bootloader_design.map: $(OBJS) $(USER_OBJS) C:\Users\moham\STM32CubeIDE\workspace_1.8.0\Bootloader_design\STM32F401CCUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Bootloader_design.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\moham\STM32CubeIDE\workspace_1.8.0\Bootloader_design\STM32F401CCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Bootloader_design.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Bootloader_design.elf Bootloader_design.map: $(OBJS) $(USER_OBJS) E:\Bootloader_Design\STM32F401CCUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Bootloader_design.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\Bootloader_Design\STM32F401CCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Bootloader_design.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
