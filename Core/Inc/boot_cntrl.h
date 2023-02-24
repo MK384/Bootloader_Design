@@ -1,6 +1,6 @@
 
 /*******************************************************************************
- * @file    boot_cntrl.h
+ * @file    BOOT_CNTRL.h
  * @author  Mohammed Khaled
  * @email   Mohammed.kh384@gmail.com
  * @website EMSTutorials.blogspot.com/
@@ -121,10 +121,10 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
  	/*This function shouldn't return, if returned the transfer control has failed*/
-	void BOOT_Transfer_Cntrl(uint32_t ImageLocation);
+	void BOOT_TRANSFER_CNTRL(uint32_t ImageAddress);
 
 	/*Copy Image from Source location to destination location.*/
-	FLASH_StateType BOOT_CPY_Image(uint32_t srcAddress ,uint32_t destAddress, uint32_t size);
+	uint32_t BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32_t size);
 
 
 

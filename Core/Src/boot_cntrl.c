@@ -1,6 +1,6 @@
 
 /*******************************************************************************
- * @file    boot_cntrl.c
+ * @file    BOOT_CNTRL.c
  * @author  Mohammed Khaled
  * @email   Mohammed.kh384@gmail.com
  * @website EMSTutorials.blogspot.com/
@@ -26,13 +26,15 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************/
 
 /**************** Includes ********************/
-#include "boot_cntrl.h"
+#include <BOOT_CNTRL.h>
+
+
+
 
 
 /**
- * @addtogroup
- * @{
- */
+  * @}
+  */
 
 /**
  * @defgroup  private local functions
@@ -40,15 +42,16 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  * @{
  */
 
-static void clear_all_cnfgs(void);
+static void BOOT_SYS_RESET(void);
 
 /**
- * @defgroup Exported_VALUES
+ * @defgroup Exported_VALUES (MEM_MAP_ADDRESSES)
  * @{
  */
-
+#define 	FLASH_MEM_ADDR		(uint32_t)(0x08000000)
 #define 	SYS_MEM_ADDR	(uint32_t)(0x1FFF0000)
 #define 	RAM_ADDR		(uint32_t)(0x20000000)
+
 
 /**
  * @}
@@ -63,7 +66,7 @@ static void clear_all_cnfgs(void);
  * @param   None
  * @retval  None
  */
-void BOOT_Transfer_Cntrl(uint32_t ImageLocation){
+void BOOT_TRANSFER_CNTRL(uint32_t ImageAddress){
 
 	/**
 	 * First value in the image should be a valid stack pointer address,
@@ -71,48 +74,48 @@ void BOOT_Transfer_Cntrl(uint32_t ImageLocation){
 	 * So we check if it's in the RAM or not.
 	 */
 
-	uint32_t _stackPtr = * (uint32_t *) ImageLocation;
+	uint32_t _stackPtr = * (uint32_t *) ImageAddress;
     if(RAM_ADDR == (_stackPtr & RAM_ADDR))
     {
 
-    	clear_all_cnfgs();
+    	/* perform system reset */
+    	BOOT_SYS_RESET();
 
         /* Check jump address */
 
+        /* Enable SYSCFG clock */
+        __HAL_RCC_SYSCFG_CLK_ENABLE();
 
-        if(SYS_MEM_ADDR == ImageLocation)    // Transfer to the System memory
+        /* Set jump to the reset handler */
+        void (* Tranfer_ImageLocation)(void) = (void *)(*((uint32_t *)(ImageAddress + 4)));
+
+
+        if(SYS_MEM_ADDR == ImageAddress)    // Transfer to the System memory
         {
-          /* Enable SYSCFG clock */
-          RCC->APB2ENR |= RCC_APB2LPENR_SYSCFGLPEN;
-
           /* Map address 0x0 to system memory */
-          SYSCFG->MEMRMP = SYSCFG_MEMRMP_MEM_MODE_0;
+        	SET_BIT(SYSCFG->MEMRMP, SYSCFG_MEMRMP_MEM_MODE_0);
+        	CLEAR_BIT(SYSCFG->MEMRMP, SYSCFG_MEMRMP_MEM_MODE_1);
         }
-        else	// Transfer to the Flash memory
+
+        else if (FLASH_MEM_ADDR <= ImageAddress )	// Transfer to the Flash memory
         {
-            /* Enable SYSCFG clock */
-            RCC->APB2ENR |= RCC_APB2LPENR_SYSCFGLPEN;
 
             /* Map address 0x0 to Flash memory */
-            SYSCFG->MEMRMP = 0x0;
+        	CLEAR_BIT(SYSCFG->MEMRMP, SYSCFG_MEMRMP_MEM_MODE_0 | SYSCFG_MEMRMP_MEM_MODE_1);
 
           /* Vector Table Relocation in Internal FLASH */
           __DMB();
-          SCB->VTOR = ImageLocation;
+          WRITE_REG(SCB->VTOR, ImageAddress);
           __DSB();
         }
 
-        /* Set jump to the reset handler */
-        void (* J_ImageLocation)(void) = (void *)(*((uint32_t *)(ImageLocation + 4)));
 
         /* Set stack pointer */
         __set_MSP(_stackPtr);
 
         /* Jump */
-        J_ImageLocation();
+        Tranfer_ImageLocation();
      }
-
-
 
 	  else
 	  {
@@ -126,52 +129,66 @@ void BOOT_Transfer_Cntrl(uint32_t ImageLocation){
  * @brief 	Copy Image from Source location to destination location
  * @note	The function shouldn't return, if returned, an error has occurred.
  * @param   src image address , dest image address , size of the image by bytes
- * @retval  FLASH_StateType
+*  @retval FLASH_ErrorCode: The returned value can be a combination of:
+*            @arg HAL_FLASH_ERROR_RD: FLASH Read Protection error flag (PCROP)
+*            @arg HAL_FLASH_ERROR_PGS: FLASH Programming Sequence error flag
+*            @arg HAL_FLASH_ERROR_PGP: FLASH Programming Parallelism error flag
+*            @arg HAL_FLASH_ERROR_PGA: FLASH Programming Alignment error flag
+*            @arg HAL_FLASH_ERROR_WRP: FLASH Write protected error flag
+*            @arg HAL_FLASH_ERROR_OPERATION: FLASH operation Error flag
  */
-FLASH_StateType BOOT_CPY_Image(uint32_t srcAddress ,uint32_t destAddress, uint32_t size){
+uint32_t BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32_t size){
 
 
-	FLASH_StateType cpy_state;
-	uint32_t data_block[4];
-
-	uint32_t end_src = srcAddress + size;
-
-	/* Initialize the flash */
-	Flash_Init();
-	/* Unlock the Flash */
-	Flash_Unlock();
-
+	uint32_t operation_state_error;
+	uint32_t  Data;
 	uint8_t resend_count = 0;
-	while(srcAddress <= end_src ){
+	uint32_t idx = 0;
 
-		if (! resend_count){
 
-				Flash_Read(srcAddress, data_block, 4);
-				srcAddress += 16;
+	/* Unlock the flash */
+	if ( HAL_FLASH_Unlock()){
+
+		operation_state_error = HAL_FLASH_GetError();
+		goto END_OP;
+	}
+
+
+	while (idx < size)
+	{
+
+		if (!resend_count){
+
+			/*Read the current memory location*/
+			Data = * ((uint32_t *) (srcAddress+idx));
 
 		}
 
-		// try 3 times as maximum to write the block
+		// try 3 times as maximum to write the word
 		// If exceeded 3, abort writing.
 		if (resend_count >= 3){
 
-			break;
+			goto END_OP;
 		}
 
-		cpy_state = Flash_Write(destAddress, data_block, 4);
+		/*Try writing the data*/
+		if ( HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, destAddress+idx, Data)){
 
-		if (cpy_state == Ok_State){
-
-			destAddress += 16;
-			resend_count = 0;
-
-		}
-		else {
 			resend_count++;
+			operation_state_error = HAL_FLASH_GetError();
+		}
+
+
+		else   // the operation has succeeded
+		{
+			resend_count = 0;
+			idx += 4;
 		}
 
 	}
-	return cpy_state;
+
+	END_OP:
+	return operation_state_error;
 
 
 }
@@ -183,13 +200,14 @@ FLASH_StateType BOOT_CPY_Image(uint32_t srcAddress ,uint32_t destAddress, uint32
  * @param   none
  * @retval  none
  */
-static void clear_all_cnfgs(void){
+static void BOOT_SYS_RESET(void){
+
 
     /* Disable all interrupts */
     __disable_irq();
 
     /* Reset GPIOA and DMA2 */
-    RCC->AHB1RSTR = (RCC_AHB1RSTR_GPIOARST | RCC_AHB1RSTR_DMA2RST);
+    RCC->AHB1RSTR = RCC_AHB1RSTR_GPIOARST;
 
     /* Release reset */
     RCC->AHB1RSTR = 0;
