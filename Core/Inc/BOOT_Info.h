@@ -1,6 +1,6 @@
 
 /*******************************************************************************
- * @file    bootloader.info.c
+ * @file    bootloader_info.c
  * @author  Mohammed Khaled
  * @email   Mohammed.kh384@gmail.com
  * @website EMSTutorials.blogspot.com/
@@ -62,14 +62,16 @@ const char *AUTHOR = "Mohammed Khaled \n";
 #define			FLASH_LOCK_CMD			(uint8_t)(0x02)
 #define			FLASH_PROG_CMD			(uint8_t)(0x03)
 #define			FLASH_READ_CMD			(uint8_t)(0x04)
+#define			FLASH_ERASE_CMD			(uint8_t)(0x05)
+#define			FLASH_CPY_CMD			(uint8_t)(0x06)
 
-#define			OB_UNLOCK_CMD			(uint8_t)(0x05)
-#define			OB_LOCK_CMD				(uint8_t)(0x06)
-#define			OB_GET_CMD				(uint8_t)(0x07)
+#define			OB_UNLOCK_CMD			(uint8_t)(0x09)
+#define			OB_LOCK_CMD				(uint8_t)(0x0A)
+#define			OB_READ_CMD				(uint8_t)(0x0B)
 
-#define			ERASE_SECS_CMD			(uint8_t)(0x08)
-#define			WR_PROTECT_CMD			(uint8_t)(0x09)
-#define			WR_UNPROTECT_CMD		(uint8_t)(0x0A)
+
+#define			WR_PROTECT_CMD			(uint8_t)(0x0C)
+#define			WR_UNPROTECT_CMD		(uint8_t)(0x0D)
 
 
 /**

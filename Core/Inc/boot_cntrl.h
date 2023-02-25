@@ -35,16 +35,16 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "stm32f4xx.h"
 #include "stdint.h"
-#include "flash_cntrl.h"
+
 
 
 /**
- * @addtogroup stm32_examples
+ * @addtogroup
  * @{
  */
 
 /**
- * @addtogroup flash
+ * @addtogroup
  * @{
  */
 

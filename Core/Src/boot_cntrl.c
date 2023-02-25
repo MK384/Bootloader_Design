@@ -30,8 +30,6 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-
-
 /**
   * @}
   */
@@ -57,6 +55,16 @@ static void BOOT_SYS_RESET(void);
  * @}
  */
 
+/**
+ * @defgroup Exported_Types
+ * @{
+ */
+
+typedef uint32_t FLASH_ErrorCode;
+
+/**
+ * @}
+ */
 
 
 
@@ -137,7 +145,7 @@ void BOOT_TRANSFER_CNTRL(uint32_t ImageAddress){
 *            @arg HAL_FLASH_ERROR_WRP: FLASH Write protected error flag
 *            @arg HAL_FLASH_ERROR_OPERATION: FLASH operation Error flag
  */
-uint32_t BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32_t size){
+FLASH_ErrorCode BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32_t size){
 
 
 	uint32_t operation_state_error;

@@ -1,0 +1,4 @@
+../Drivers/CMSIS/Include/core_cm4.h:2064:26:ITM_SendChar	16	static,ignoring_inline_asm
+E:/Bootloader_Design/Core/Src/itm.c:117:6:ITM_Printf	24	static
+E:/Bootloader_Design/Core/Src/itm.c:140:6:ITM_SendChar_Port	16	static
+E:/Bootloader_Design/Core/Src/itm.c:156:6:ITM_Printf_Port	32	static

@@ -31,6 +31,16 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>Core/Inc/itm.h</name>
+			<type>1</type>
+			<location>E:/Bootloader_Design/Core/Inc/itm.h</location>
+		</link>
+		<link>
+			<name>Core/Src/itm.c</name>
+			<type>1</type>
+			<location>E:/Bootloader_Design/Core/Src/itm.c</location>
+		</link>
+		<link>
 			<name>Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h</name>
 			<type>1</type>
 			<location>E:/Bootloader_Design/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h</location>
