@@ -105,6 +105,16 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * @}
  */
+/**
+ * @defgroup Exported_Types
+ * @{
+ */
+
+typedef uint32_t FLASH_ErrorCode;
+
+/**
+ * @}
+ */
 
 /**
  * @defgroup flash_exported_constants
@@ -124,7 +134,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 	void BOOT_TRANSFER_CNTRL(uint32_t ImageAddress);
 
 	/*Copy Image from Source location to destination location.*/
-	uint32_t BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32_t size);
+FLASH_ErrorCode BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32_t size);
 
 
 

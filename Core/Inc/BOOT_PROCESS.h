@@ -35,6 +35,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "BOOT_CNTRL.h"
 #include "BOOT_Info.h"
+#include "stm32f4xx_hal.h"
 
 
 
@@ -69,6 +70,10 @@ typedef uint32_t AddressType;
  * @{
  */
 
+#define 	RX_BUFFER_SIZE		256
+#define 	TX_BUFFER_SIZE		256
+
+
 /**
  * @}
  */
@@ -100,6 +105,10 @@ void PROCESS_FLASH_CPY_CMD		(void);
 void PROCESS_FLASH_CHECK_CMD	(void);
 void PROCESS_MASS_ERASE_CMD		(void);
 
+void PROCESS_TRANSFER_CNTRL_CMD	(void);
+
+
+
 /**
  * @}
  */
@@ -128,8 +137,6 @@ void PROCESS_UNPROTECT_CMD	(void);
  * @{
  */
 
-void PROCESS_ERROR		(void);
-void PROCESS_COMPLETE	(void);
 
 /**
  * @}

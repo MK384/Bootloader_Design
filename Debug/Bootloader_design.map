@@ -252,7 +252,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x295 ./Core/Src/BOOT_CNTRL.o
  .debug_macro   0x0000000000000000      0x126 ./Core/Src/BOOT_CNTRL.o
  .debug_macro   0x0000000000000000       0x94 ./Core/Src/BOOT_CNTRL.o
- .debug_line    0x0000000000000000      0x7ff ./Core/Src/BOOT_CNTRL.o
+ .debug_line    0x0000000000000000      0x7fe ./Core/Src/BOOT_CNTRL.o
  .debug_str     0x0000000000000000    0x7f0fd ./Core/Src/BOOT_CNTRL.o
  .comment       0x0000000000000000       0x51 ./Core/Src/BOOT_CNTRL.o
  .debug_frame   0x0000000000000000       0x7c ./Core/Src/BOOT_CNTRL.o

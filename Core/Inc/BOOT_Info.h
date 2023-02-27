@@ -73,6 +73,8 @@ const char *AUTHOR = "Mohammed Khaled \n";
 #define			WR_PROTECT_CMD			(uint8_t)(0x0C)
 #define			WR_UNPROTECT_CMD		(uint8_t)(0x0D)
 
+#define			TRANSFER_CNTRL_CMD		(uint8_t)(0x0E)
+
 
 /**
  * @}
@@ -87,11 +89,15 @@ const char *AUTHOR = "Mohammed Khaled \n";
 #define 		ACK_MSG					(uint8_t)(0x41)
 #define 		NACK_MSG				(uint8_t)(0x4E)
 
+
+
 #define 		PGSERR_ERR_MSG			(uint8_t)(0xE1)
 #define 		PGPERR_ERR_MSG			(uint8_t)(0xE2)
 #define 		PGAERR_ERR_MSG			(uint8_t)(0xE3)
 #define 		WRPERR_ERR_MSG			(uint8_t)(0xE4)
 
+#define 		RDPR_ERR_MSG			(uint8_t)(0xE5)
+#define 		OP_ERR_MSG				(uint8_t)(0xE6)
 /**
  * @}
  */
@@ -105,7 +111,7 @@ const char *AUTHOR = "Mohammed Khaled \n";
 const char* SEPART_LINE =          "------------------------------------------------\n";
 const char* CMD_HEAD =    		    "|*********          COMMANDS      *************|\n";
 const char* MSG_HEAD =              "|*********         MSGs & ERR     *************|\n";
-
+const char* INFO_HEAD =             "|*********     BootLoader Info    *************|\n";
 
 const char* ID_LINE   =             "| BL ID           :    ";
 const char* VER_LINE  =  			"| BL Version      :    ";
@@ -119,13 +125,19 @@ const char* FLASH_LOCK =			"| FLASH Lock      :    ";
 const char* FLASH_PROG =			"| FLASH Write     :    ";
 const char* FLASH_READ =			"| FLASH Read      :    ";
 
+const char* SEC_ERASE =			    "| Sectors erase   :    ";
+const char* SEC_ERASE =			    "| Sectors erase   :    ";
+
+
 const char* OB_UNLOCK =			    "| OB Unlock       :    ";
 const char* OB_LOCK =			    "| OB Lock         :    ";
 const char* OB_GET =			    "| OB Read         :    ";
 
-const char* SEC_ERASE =			    "| Sectors erase   :    ";
+
 const char* SEC_PROTECT =	        "| Sectors Lock    :    ";
 const char* SEC_UNPROTECT =	        "| Sectors Unlock  :    ";
+
+
 
 const char* ACK =			        "| ACK CODE        :    ";
 const char* NACK =			        "| NACK CODE       :    ";

@@ -26,7 +26,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************/
 
 /**************** Includes ********************/
-#include <BOOT_CNTRL.h>
+#include "BOOT_CNTRL.h"
 
 
 
@@ -50,17 +50,6 @@ static void BOOT_SYS_RESET(void);
 #define 	SYS_MEM_ADDR	(uint32_t)(0x1FFF0000)
 #define 	RAM_ADDR		(uint32_t)(0x20000000)
 
-
-/**
- * @}
- */
-
-/**
- * @defgroup Exported_Types
- * @{
- */
-
-typedef uint32_t FLASH_ErrorCode;
 
 /**
  * @}

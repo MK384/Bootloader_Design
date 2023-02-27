@@ -91,7 +91,7 @@ typedef struct
 #define HAL_FLASH_ERROR_PGP          0x00000004U    /*!< Programming Parallelism error */
 #define HAL_FLASH_ERROR_PGA          0x00000008U    /*!< Programming Alignment error   */
 #define HAL_FLASH_ERROR_WRP          0x00000010U    /*!< Write protection error        */
-#define HAL_FLASH_ERROR_OPERATION    0x00000020U    /*!< Operation Error               */
+#define HAL_FLASH_ERROR_OPERATION    0x00000020U  	  /*!< Operation Error               */
 /**
   * @}
   */

@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -55,7 +56,6 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
 
 /* USER CODE END 0 */
 
@@ -96,11 +96,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
 
-
-
   while (1)
   {
     /* USER CODE END WHILE */
+
+
 
 
     /* USER CODE BEGIN 3 */

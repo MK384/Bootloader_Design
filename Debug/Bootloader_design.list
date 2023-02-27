@@ -1354,9 +1354,9 @@ int main(void)
  8001014:	f000 f89a 	bl	800114c <MX_GPIO_Init>
   MX_USART1_UART_Init();
  8001018:	f000 f86e 	bl	80010f8 <MX_USART1_UART_Init>
+
+  /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
-
 
 
   while (1)
