@@ -56,24 +56,30 @@ const char *AUTHOR = "Mohammed Khaled \n";
  * @{
  */
 
-#define 		GET_INFO_CMD			(uint8_t)(0x00)
-
+// To get the information of the bottloader
+#define 		GET_CMD					(uint8_t)(0x00)
+// Flash control operations
 #define 		FLASH_UNLOCK_CMD		(uint8_t)(0x01)
 #define			FLASH_LOCK_CMD			(uint8_t)(0x02)
 #define			FLASH_PROG_CMD			(uint8_t)(0x03)
 #define			FLASH_READ_CMD			(uint8_t)(0x04)
 #define			FLASH_ERASE_CMD			(uint8_t)(0x05)
-#define			FLASH_CPY_CMD			(uint8_t)(0x06)
-
+#define			FLASH_MASS_ERASE_CMD	(uint8_t)(0x06)
+#define			FLASH_CPY_CMD			(uint8_t)(0x07)
+// Transfer control operations
+#define			TRANSFER_CNTRL_CMD		(uint8_t)(0x08)
+// option bytes control
 #define			OB_UNLOCK_CMD			(uint8_t)(0x09)
 #define			OB_LOCK_CMD				(uint8_t)(0x0A)
 #define			OB_READ_CMD				(uint8_t)(0x0B)
-
-
+// Protection control
 #define			WR_PROTECT_CMD			(uint8_t)(0x0C)
 #define			WR_UNPROTECT_CMD		(uint8_t)(0x0D)
 
-#define			TRANSFER_CNTRL_CMD		(uint8_t)(0x0E)
+// For future versions
+#define			RD_PROTECT_CMD			(uint8_t)(0x0E)
+#define			RD_UNPROTECT_CMD		(uint8_t)(0x0F)
+#define			CRC_CHECK_CMD			(uint8_t)(0x10)
 
 
 /**

@@ -95,9 +95,38 @@ static	void SEND_NACK(void);
 
 
 /**
-  * @}
-  */
+* @}
+*/
 
+/**
+ * @brief	Proccess initialization function
+ * @note	None
+ * @param   None
+ * @retval  None
+ */
+void PROCESS_INIT						(void){
+
+	Process_Handlers[GET_CMD]         =		 PROCESS_GET_CMD;
+	Process_Handlers[FLASH_UNLOCK_CMD]     =		 PROCESS_FLASH_UNLOCK_CMD;
+	Process_Handlers[FLASH_LOCK_CMD]       = 		 PROCESS_FLASH_LOCK_CMD;
+	Process_Handlers[FLASH_PROG_CMD]       =		 PROCESS_FLASH_PROG_CMD;
+	Process_Handlers[FLASH_READ_CMD] 	   =		 PROCESS_FLASH_READ_CMD;
+	Process_Handlers[FLASH_ERASE_CMD] 	   =		 PROCESS_FLASH_ERASE_CMD;
+	Process_Handlers[FLASH_MASS_ERASE_CMD] = 		 PROCESS_FLASH_MASS_ERASE_CMD;
+	Process_Handlers[FLASH_CPY_CMD]        = 		 PROCESS_FLASH_CPY_CMD;
+	Process_Handlers[TRANSFER_CNTRL_CMD]   = 		 PROCESS_TRANSFER_CNTRL_CMD;
+	Process_Handlers[OB_UNLOCK_CMD]        =		 PROCESS_OB_UNLOCK_CMD;
+	Process_Handlers[OB_LOCK_CMD]          = 		 PROCESS_OB_LOCK_CMD;
+	Process_Handlers[OB_READ_CMD]          = 		 PROCESS_OB_READ_CMD;
+	Process_Handlers[WR_PROTECT_CMD]       = 		 PROCESS_WR_PROTECT_CMD;
+	Process_Handlers[WR_UNPROTECT_CMD]     = 		 PROCESS_WR_UNPROTECT_CMD;
+
+
+}
+
+/**
+ * @}
+ */
 
 
 /**
@@ -259,6 +288,39 @@ void PROCESS_FLASH_ERASE_CMD	(void){
  * @}
  */
 
+/**
+ * @brief	Called when mass erase command retrieved.
+ * @note	None
+ * @param   None
+ * @retval  None
+ */
+
+void PROCESS_FLASH_MASS_ERASE_CMD	    (void){
+
+	FLASH_EraseInitTypeDef strInit;
+	uint32_t SectorError = 0;
+
+
+	strInit.Banks = FLASH_BANK_1;
+	strInit.TypeErase = FLASH_TYPEERASE_MASSERASE;
+	strInit.VoltageRange = FLASH_VOLTAGE_RANGE_3;
+
+	HAL_FLASHEx_Erase(&strInit, &SectorError);
+
+	if(SectorError != 0xFFFFFFFFU){
+		SEND_NACK();
+		HAL_UART_Transmit(&huart1, (uint8_t*) &SectorError, 1U , TRANS_WAIT_TIME);
+		return;
+	}
+	SEND_ACK();
+
+
+}
+
+/**
+ * @}
+ */
+
 
 /**
  * @brief	Called when copy command retrieved.
@@ -353,7 +415,7 @@ void PROCESS_OB_READ_CMD	(void){
  * @param   None
  * @retval  None
  */
-void PROCESS_PROTECT_CMD	(void){
+void PROCESS_WR_PROTECT_CMD	(void){
 
 	FLASH_OBProgramInitTypeDef pOBInit;
 	pOBInit.OptionType = OPTIONBYTE_WRP;
@@ -377,7 +439,7 @@ void PROCESS_PROTECT_CMD	(void){
  * @param   None
  * @retval  None
  */
-void PROCESS_PROTECT_CMD	(void){
+void PROCESS_WR_UNPROTECT_CMD	(void){
 
 	FLASH_OBProgramInitTypeDef pOBInit;
 	pOBInit.OptionType = OPTIONBYTE_WRP;
@@ -414,28 +476,9 @@ void PROCESS_TRANSFER_CNTRL_CMD	(void){
 /**
  * @}
  */
-/**
- * @brief
- * @note	None
- * @param   None
- * @retval  None
- */
 
 
-/**
- * @}
- */
-/**
- * @brief
- * @note	None
- * @param   None
- * @retval  None
- */
 
-
-/**
- * @}
- */
 /**
  * @brief
  * @note	None

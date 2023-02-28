@@ -45,9 +45,29 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
+ * @defgroup PROCESS_Exported_Macros
+ * @{
+ */
+
+#define 	RX_BUFFER_SIZE		256U
+#define 	TX_BUFFER_SIZE		256U
+#define 	PROCESS_NUMBER		17U
+
+
+/**
+ * @}
+ */
+
+/**
  * @addtogroup PROCESS_Global_Vars
  * @{
  */
+
+void (*Process_Handlers[PROCESS_NUMBER])();
+/**
+ * @}
+ */
+
 
 /**
  * @defgroup PROCESS_Exported_Typedefs
@@ -65,23 +85,13 @@ typedef uint32_t AddressType;
  * @}
  */
 
+
 /**
- * @defgroup PROCESS_Exported_Macros
+ * @defgroup PROCESS Initialization function
  * @{
  */
 
-#define 	RX_BUFFER_SIZE		256
-#define 	TX_BUFFER_SIZE		256
-
-
-/**
- * @}
- */
-
-/**
- * @defgroup PROCESS_Exported_Constants
- * @{
- */
+void PROCESS_INIT						(void);
 
 /**
  * @}
@@ -92,20 +102,17 @@ typedef uint32_t AddressType;
  * @{
  */
 
-void PROCESS_GET_CMD			(void);
+void PROCESS_GET_CMD					(void);
 
-void PROCESS_FLASH_UNLOCK_CMD	(void);
-void PROCESS_FLASH_LOCK_CMD		(void);
-void PROCESS_FLASH_PROG_CMD		(void);
-void PROCESS_FLASH_READ_CMD		(void);
-void PROCESS_FLASH_ERASE_CMD	(void);
-void PROCESS_FLASH_CPY_CMD		(void);
+void PROCESS_FLASH_UNLOCK_CMD			(void);
+void PROCESS_FLASH_LOCK_CMD				(void);
+void PROCESS_FLASH_PROG_CMD				(void);
+void PROCESS_FLASH_READ_CMD				(void);
+void PROCESS_FLASH_ERASE_CMD			(void);
+void PROCESS_FLASH_MASS_ERASE_CMD	    (void);
+void PROCESS_FLASH_CPY_CMD				(void);
 
-// FOR FUTURE VERSION
-void PROCESS_FLASH_CHECK_CMD	(void);
-void PROCESS_MASS_ERASE_CMD		(void);
-
-void PROCESS_TRANSFER_CNTRL_CMD	(void);
+void PROCESS_TRANSFER_CNTRL_CMD			(void);
 
 
 
@@ -118,13 +125,13 @@ void PROCESS_TRANSFER_CNTRL_CMD	(void);
  * @defgroup PROCESS_Exported_Functions  @Group2
  * @{
  */
-void PROCESS_OB_UNLOCK_CMD	(void);
-void PROCESS_OB_LOCK_CMD	(void);
-void PROCESS_OB_READ_CMD	(void);
+void PROCESS_OB_UNLOCK_CMD				(void);
+void PROCESS_OB_LOCK_CMD				(void);
+void PROCESS_OB_READ_CMD				(void);
 
 // WRITE PROTECTION PROCESS
-void PROCESS_PROTECT_CMD	(void);
-void PROCESS_UNPROTECT_CMD	(void);
+void PROCESS_WR_PROTECT_CMD				(void);
+void PROCESS_WR_UNPROTECT_CMD			(void);
 
 
 /**
@@ -136,6 +143,11 @@ void PROCESS_UNPROTECT_CMD	(void);
  * @defgroup PROCESS_Exported_Functions  @Group3
  * @{
  */
+
+// FOR FUTURE VERSION
+void PROCESS_RD_PROTECT_CMD				(void);
+void PROCESS_RD_UNPROTECT_CMD			(void);
+void PROCESS_CRC_CHECK_CMD				(void);
 
 
 /**
