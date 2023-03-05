@@ -58,6 +58,20 @@ static void BOOT_SYS_RESET(void);
 
 
 /**
+ * @defgroup  private local types
+ * @brief
+ * @{
+ */
+typedef   uint32_t	AddressType;
+typedef	  uint32_t	DataType;
+typedef	  uint32_t	SizeType;
+
+/**
+  * @}
+  */
+
+
+/**
  * @brief 	Jump and transfer control into a program image at a specific location
  * @note	The function shouldn't return, if returned, an error has occurred.
  * @param   None
@@ -126,30 +140,17 @@ void BOOT_TRANSFER_CNTRL(uint32_t ImageAddress){
  * @brief 	Copy Image from Source location to destination location
  * @note	The function shouldn't return, if returned, an error has occurred.
  * @param   src image address , dest image address , size of the image by bytes
-*  @retval FLASH_ErrorCode: The returned value can be a combination of:
-*            @arg HAL_FLASH_ERROR_RD: FLASH Read Protection error flag (PCROP)
-*            @arg HAL_FLASH_ERROR_PGS: FLASH Programming Sequence error flag
-*            @arg HAL_FLASH_ERROR_PGP: FLASH Programming Parallelism error flag
-*            @arg HAL_FLASH_ERROR_PGA: FLASH Programming Alignment error flag
-*            @arg HAL_FLASH_ERROR_WRP: FLASH Write protected error flag
-*            @arg HAL_FLASH_ERROR_OPERATION: FLASH operation Error flag
+*  @retval HAL_StatusTypeDef {HAL_OK or HAL_ERROR}
+
  */
-FLASH_ErrorCode BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32_t size){
+HAL_StatusTypeDef BOOT_CPY_IMAGE(AddressType srcAddress ,AddressType destAddress, SizeType size){
 
 
-	uint32_t operation_state_error;
-	uint32_t  Data;
+	HAL_StatusTypeDef state;
+	DataType  Data;
+
 	uint8_t resend_count = 0;
 	uint32_t idx = 0;
-
-
-	/* Unlock the flash */
-	if ( HAL_FLASH_Unlock()){
-
-		operation_state_error = HAL_FLASH_GetError();
-		goto END_OP;
-	}
-
 
 	while (idx < size)
 	{
@@ -157,7 +158,7 @@ FLASH_ErrorCode BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32
 		if (!resend_count){
 
 			/*Read the current memory location*/
-			Data = * ((uint32_t *) (srcAddress+idx));
+			Data = * ((DataType *) (srcAddress+idx));
 
 		}
 
@@ -165,17 +166,16 @@ FLASH_ErrorCode BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32
 		// If exceeded 3, abort writing.
 		if (resend_count >= 3){
 
-			goto END_OP;
+			return state;
 		}
 
 		/*Try writing the data*/
-		if ( HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, destAddress+idx, Data)){
+		state = HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, destAddress+idx, Data);
 
+		/*if error occurred increase the resend counter */
+		if (state != HAL_OK){
 			resend_count++;
-			operation_state_error = HAL_FLASH_GetError();
 		}
-
-
 		else   // the operation has succeeded
 		{
 			resend_count = 0;
@@ -184,8 +184,7 @@ FLASH_ErrorCode BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32
 
 	}
 
-	END_OP:
-	return operation_state_error;
+	return state;
 
 
 }

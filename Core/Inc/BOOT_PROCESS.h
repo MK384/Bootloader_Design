@@ -34,7 +34,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  * Includes:
  */
 #include "BOOT_CNTRL.h"
-#include "BOOT_Info.h"
+//#include "BOOT_Info.h"
 #include "stm32f4xx_hal.h"
 
 
@@ -52,6 +52,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #define 	RX_BUFFER_SIZE		256U
 #define 	TX_BUFFER_SIZE		256U
 #define 	PROCESS_NUMBER		17U
+#define 	RX_TIME_OUT			100U
 
 
 /**
@@ -62,8 +63,11 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  * @addtogroup PROCESS_Global_Vars
  * @{
  */
+extern void (*Process_Handlers[PROCESS_NUMBER])();
 
-void (*Process_Handlers[PROCESS_NUMBER])();
+extern uint8_t RxBuffer[RX_BUFFER_SIZE];		// this buffer will contain the proceed data for all process functions.
+extern uint8_t TxBuffer[TX_BUFFER_SIZE];		// this buffer will contain the proceed data for all process functions.
+
 /**
  * @}
  */
@@ -91,7 +95,6 @@ typedef uint32_t AddressType;
  * @{
  */
 
-void PROCESS_INIT						(void);
 
 /**
  * @}
@@ -132,6 +135,10 @@ void PROCESS_OB_READ_CMD				(void);
 // WRITE PROTECTION PROCESS
 void PROCESS_WR_PROTECT_CMD				(void);
 void PROCESS_WR_UNPROTECT_CMD			(void);
+
+
+void PROCESS_INIT						(void);
+
 
 
 /**

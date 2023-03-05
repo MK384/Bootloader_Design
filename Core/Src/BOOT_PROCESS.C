@@ -27,6 +27,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**************** Includes ********************/
 #include "BOOT_PROCESS.h"
+#include "BOOT_Info.h"
 
 
 /**
@@ -35,8 +36,6 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  * @{
  */
 
-char RxBuffer[RX_BUFFER_SIZE];		// this buffer will contain the proceed data for all process functions.
-char TxBuffer[TX_BUFFER_SIZE];		// this buffer will contain the proceed data for all process functions.
 
 extern UART_HandleTypeDef huart1;
 
@@ -61,7 +60,7 @@ extern UART_HandleTypeDef huart1;
 
 #define 	ADDRESS_OFFSET			(0x00000001U)
 #define 	SECTOR_OFFSET			(0x00000001U)
-#define 	SIZE_OFFSET				(0x00000008U)
+#define 	SIZE_OFFSET				(0x00000009U)
 
 
 /**
@@ -77,6 +76,12 @@ extern UART_HandleTypeDef huart1;
 typedef   uint32_t	AddressType;
 typedef	  uint32_t	DataType;
 typedef	  uint32_t	SizeType;
+
+
+ void (*Process_Handlers[PROCESS_NUMBER])();
+
+ uint8_t RxBuffer[RX_BUFFER_SIZE];		// this buffer will contain the proceed data for all process functions.
+ uint8_t TxBuffer[TX_BUFFER_SIZE];		// this buffer will contain the proceed data for all process functions.
 
 
 /**
@@ -104,9 +109,9 @@ static	void SEND_NACK(void);
  * @param   None
  * @retval  None
  */
-void PROCESS_INIT						(void){
+void PROCESS_INIT (void){
 
-	Process_Handlers[GET_CMD]         =		 PROCESS_GET_CMD;
+	Process_Handlers[GET_CMD]              =		 PROCESS_GET_CMD;
 	Process_Handlers[FLASH_UNLOCK_CMD]     =		 PROCESS_FLASH_UNLOCK_CMD;
 	Process_Handlers[FLASH_LOCK_CMD]       = 		 PROCESS_FLASH_LOCK_CMD;
 	Process_Handlers[FLASH_PROG_CMD]       =		 PROCESS_FLASH_PROG_CMD;
@@ -216,7 +221,7 @@ void PROCESS_FLASH_PROG_CMD		(void){
 
 	for (int idx = 0 ; idx < BLOCK_SIZE; ++idx) {
 
-		if(HAL_FLASH_Program(TYPEPROGRAM, (Address + (idx << TYPEPROGRAM)),  RxBuffer[DATA_OFFSET+(idx << TYPEPROGRAM)]))
+		if(HAL_FLASH_Program(TYPEPROGRAM, (Address + (idx << TYPEPROGRAM)),  *((DataType*)&RxBuffer[DATA_OFFSET+(idx << TYPEPROGRAM)])    ))
 			{
 			SEND_NACK();
 			return;
@@ -377,7 +382,7 @@ void PROCESS_OB_UNLOCK_CMD	(void){
  * @param   None
  * @retval  None
  */
-void PROCESS_OB_UNLOCK_CMD	(void){
+void PROCESS_OB_LOCK_CMD	(void){
 
 
 	if(HAL_FLASH_OB_Lock())
@@ -477,16 +482,6 @@ void PROCESS_TRANSFER_CNTRL_CMD	(void){
  * @}
  */
 
-
-
-/**
- * @brief
- * @note	None
- * @param   None
- * @retval  None
- */
-
-
 /**
  * @}
  */
@@ -518,37 +513,31 @@ static	void SEND_ACK(void){
 
 static	void SEND_NACK(void){
 
-	RxBuffer[0] = NACK_MSG;
-	HAL_UART_Transmit(&huart1, RxBuffer, CMD_SIZE, TRANS_WAIT_TIME);
+	TxBuffer[0] = NACK_MSG;
 
-	uint8_t ERR_CODE;
+	uint8_t errorCount = 0;
+	uint32_t errorFields = HAL_FLASH_GetError();
 
-	switch (HAL_FLASH_GetError()) {
-		case HAL_FLASH_ERROR_RD:
-			ERR_CODE = RDPR_ERR_MSG;
-			break;
-		case HAL_FLASH_ERROR_PGS:
-			ERR_CODE = PGSERR_ERR_MSG;
-			break;
-		case HAL_FLASH_ERROR_PGP:
-			ERR_CODE = PGPERR_ERR_MSG;
-			break;
-		case HAL_FLASH_ERROR_PGA:
-			ERR_CODE = PGAERR_ERR_MSG;
-			break;
-		case HAL_FLASH_ERROR_WRP:
-			ERR_CODE = WRPERR_ERR_MSG;
-			break;
-		case HAL_FLASH_ERROR_OPERATION:
-			ERR_CODE = OP_ERR_MSG;
-			break;
-		default:
-			ERR_CODE = 0x00;
-			break;
+	if ((errorFields & HAL_FLASH_ERROR_RD) == HAL_FLASH_ERROR_RD ){
+		TxBuffer[++errorCount] = RDPR_ERR_MSG;
+	}
+	if ((errorFields & HAL_FLASH_ERROR_PGS) == HAL_FLASH_ERROR_PGS ){
+		TxBuffer[++errorCount] = PGSERR_ERR_MSG;
+	}
+	if ((errorFields & HAL_FLASH_ERROR_PGP) == HAL_FLASH_ERROR_PGP ){
+		TxBuffer[++errorCount] = PGPERR_ERR_MSG;
+	}
+	if ((errorFields & HAL_FLASH_ERROR_PGA) == HAL_FLASH_ERROR_PGA ){
+		TxBuffer[++errorCount] = PGAERR_ERR_MSG;
+	}
+	if ((errorFields & HAL_FLASH_ERROR_WRP) == HAL_FLASH_ERROR_WRP ){
+		TxBuffer[++errorCount] = WRPERR_ERR_MSG;
+	}
+	if ((errorFields & HAL_FLASH_ERROR_OPERATION) == HAL_FLASH_ERROR_OPERATION ){
+		TxBuffer[++errorCount] = OP_ERR_MSG;
 	}
 
-	TxBuffer[0] = ERR_CODE;
-	HAL_UART_Transmit(&huart1, TxBuffer, CMD_SIZE, TRANS_WAIT_TIME);
+	HAL_UART_Transmit(&huart1, TxBuffer, errorCount+1, TRANS_WAIT_TIME);
 
 }
 

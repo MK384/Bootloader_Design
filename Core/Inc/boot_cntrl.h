@@ -134,7 +134,7 @@ typedef uint32_t FLASH_ErrorCode;
 	void BOOT_TRANSFER_CNTRL(uint32_t ImageAddress);
 
 	/*Copy Image from Source location to destination location.*/
-FLASH_ErrorCode BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32_t size);
+	HAL_StatusTypeDef BOOT_CPY_IMAGE(uint32_t srcAddress ,uint32_t destAddress, uint32_t size);
 
 
 

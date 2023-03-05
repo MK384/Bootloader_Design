@@ -41,9 +41,9 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  * @brief    Contains information about the boot loader id, version and the author
  * @{
  */
-const char *ID = "0xFC10EA01  \n";
-const char *VERSION = "v1.0   \n";
-const char *AUTHOR = "Mohammed Khaled \n";
+const char ID[] = "0xEC \n";
+const char VERSION[] = "v1.0  \n";
+const char AUTHOR[] = "Mohammed Khaled \n";
 
 /**
  * @}
@@ -101,7 +101,6 @@ const char *AUTHOR = "Mohammed Khaled \n";
 #define 		PGPERR_ERR_MSG			(uint8_t)(0xE2)
 #define 		PGAERR_ERR_MSG			(uint8_t)(0xE3)
 #define 		WRPERR_ERR_MSG			(uint8_t)(0xE4)
-
 #define 		RDPR_ERR_MSG			(uint8_t)(0xE5)
 #define 		OP_ERR_MSG				(uint8_t)(0xE6)
 /**
@@ -114,14 +113,14 @@ const char *AUTHOR = "Mohammed Khaled \n";
  * @{
  */
 
-const char* SEPART_LINE =          "------------------------------------------------\n";
-const char* CMD_HEAD =    		    "|*********          COMMANDS      *************|\n";
-const char* MSG_HEAD =              "|*********         MSGs & ERR     *************|\n";
-const char* INFO_HEAD =             "|*********     BootLoader Info    *************|\n";
+const char SEPART_LINE[] =           "------------------------------------------------\n";
+const char CMD_HEAD[] =    		     "|*********          COMMANDS      *************|\n";
+const char MSG_HEAD[] =              "|*********         MSGs & ERR     *************|\n";
+const char INFO_HEAD[] =             "|*********     BootLoader Info    *************|\n";
 
-const char* ID_LINE   =             "| BL ID           :    ";
-const char* VER_LINE  =  			"| BL Version      :    ";
-const char* AUTH_LINE =			    "| BL Author       :    ";
+const char ID_LINE []  =             "| BL ID           :    ";
+const char VER_LINE [] =  			 "| BL Version      :    ";
+const char AUTH_LINE[] =	         "| BL Author       :    ";
 
 const char* GET_INFO =				"| Get BL Info     :    ";
 
@@ -132,8 +131,6 @@ const char* FLASH_PROG =			"| FLASH Write     :    ";
 const char* FLASH_READ =			"| FLASH Read      :    ";
 
 const char* SEC_ERASE =			    "| Sectors erase   :    ";
-const char* SEC_ERASE =			    "| Sectors erase   :    ";
-
 
 const char* OB_UNLOCK =			    "| OB Unlock       :    ";
 const char* OB_LOCK =			    "| OB Lock         :    ";
