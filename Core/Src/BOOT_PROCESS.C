@@ -515,7 +515,7 @@ static	void SEND_NACK(void){
 
 	TxBuffer[0] = NACK_MSG;
 
-	uint8_t errorCount = 0;
+	uint8_t errorCount = 1;
 	uint32_t errorFields = HAL_FLASH_GetError();
 
 	if ((errorFields & HAL_FLASH_ERROR_RD) == HAL_FLASH_ERROR_RD ){
@@ -536,8 +536,9 @@ static	void SEND_NACK(void){
 	if ((errorFields & HAL_FLASH_ERROR_OPERATION) == HAL_FLASH_ERROR_OPERATION ){
 		TxBuffer[++errorCount] = OP_ERR_MSG;
 	}
+	TxBuffer[1] = --errorCount;
 
-	HAL_UART_Transmit(&huart1, TxBuffer, errorCount+1, TRANS_WAIT_TIME);
+	HAL_UART_Transmit(&huart1, TxBuffer, errorCount+2, TRANS_WAIT_TIME);
 
 }
 

@@ -1,0 +1,2 @@
+../Core/Src/BOOT_CNTRL.c:80:6:BOOT_TRANSFER_CNTRL	16	static,ignoring_inline_asm
+../Core/Src/BOOT_CNTRL.c:146:19:BOOT_CPY_IMAGE	32	static

@@ -34,7 +34,6 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  * Includes:
  */
 #include "BOOT_CNTRL.h"
-//#include "BOOT_Info.h"
 #include "stm32f4xx_hal.h"
 
 
@@ -49,8 +48,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
  * @{
  */
 
-#define 	RX_BUFFER_SIZE		256U
-#define 	TX_BUFFER_SIZE		256U
+#define 	RX_BUFFER_SIZE		64U
+#define 	TX_BUFFER_SIZE		64U
 #define 	PROCESS_NUMBER		17U
 #define 	RX_TIME_OUT			100U
 

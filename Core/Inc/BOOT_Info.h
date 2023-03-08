@@ -26,7 +26,6 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************/
 
 /**************** Includes ********************/
-#include <stdlib.h>
 #include <stdint.h>
 
 
@@ -122,33 +121,6 @@ const char ID_LINE []  =             "| BL ID           :    ";
 const char VER_LINE [] =  			 "| BL Version      :    ";
 const char AUTH_LINE[] =	         "| BL Author       :    ";
 
-const char* GET_INFO =				"| Get BL Info     :    ";
-
-const char* FLASH_UNLOCK =			"| FLASH Unlock    :    ";
-const char* FLASH_LOCK =			"| FLASH Lock      :    ";
-
-const char* FLASH_PROG =			"| FLASH Write     :    ";
-const char* FLASH_READ =			"| FLASH Read      :    ";
-
-const char* SEC_ERASE =			    "| Sectors erase   :    ";
-
-const char* OB_UNLOCK =			    "| OB Unlock       :    ";
-const char* OB_LOCK =			    "| OB Lock         :    ";
-const char* OB_GET =			    "| OB Read         :    ";
-
-
-const char* SEC_PROTECT =	        "| Sectors Lock    :    ";
-const char* SEC_UNPROTECT =	        "| Sectors Unlock  :    ";
-
-
-
-const char* ACK =			        "| ACK CODE        :    ";
-const char* NACK =			        "| NACK CODE       :    ";
-
-const char* PGSERR_ERR =		    "| Programming Sequence Error     :    ";
-const char* PGPERR_ERR =	        "| Programming Parallelism Error  :    ";
-const char* PGAERR_ERR =	        "| Programming Alignment Error    :    ";
-const char* WRPERR_ERR =	        "| Write Protection Error         :    ";
 
 /**
  * @}

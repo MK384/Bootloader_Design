@@ -146,7 +146,7 @@ void BOOT_TRANSFER_CNTRL(uint32_t ImageAddress){
 HAL_StatusTypeDef BOOT_CPY_IMAGE(AddressType srcAddress ,AddressType destAddress, SizeType size){
 
 
-	HAL_StatusTypeDef state;
+	HAL_StatusTypeDef state = HAL_ERROR;
 	DataType  Data;
 
 	uint8_t resend_count = 0;

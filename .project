@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Bootloader_design</name>
+	<name>Bootloader</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -29,26 +29,4 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>Core/Inc/itm.h</name>
-			<type>1</type>
-			<location>E:/Bootloader_Design/Core/Inc/itm.h</location>
-		</link>
-		<link>
-			<name>Core/Src/itm.c</name>
-			<type>1</type>
-			<location>E:/Bootloader_Design/Core/Src/itm.c</location>
-		</link>
-		<link>
-			<name>Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h</name>
-			<type>1</type>
-			<location>E:/Bootloader_Design/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h</location>
-		</link>
-		<link>
-			<name>Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_usart.c</name>
-			<type>1</type>
-			<location>E:/stm32f4xx_hal_driver/Src/stm32f4xx_hal_usart.c</location>
-		</link>
-	</linkedResources>
 </projectDescription>
